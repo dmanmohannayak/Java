@@ -18,8 +18,8 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<sonar.organization>new</sonar.organization>
-		<sonar.projectKey>antman4</sonar.projectKey>
+		<sonar.organization>java</sonar.organization>
+		<sonar.projectKey>newkey1</sonar.projectKey>
 		<sonar.projectName>sample</sonar.projectName>
 	</properties>
 	<dependencies>
