@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-        // CI Start
         stage('Build') {
             steps {
                 echo 'Build'
@@ -14,13 +13,18 @@ pipeline {
             }
         }
 
+        stage('Fetch') {
+            steps {
+                sh 'git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/New_main@2/.git'
+                sh 'git config remote.origin.url https://github.com/dmanmohannayak/Java.git'
+                sh 'git fetch --no-tags --force --progress -- https://github.com/dmanmohannayak/Java.git +refs/heads/main:refs/remotes/origin/main'
+            }
+        }
+
         stage("SonarQube analysis") {
             agent any
-
             when {
-                anyOf {
-                    branch 'main'
-                }
+                branch 'main'
             }
             steps {
                 withSonarQubeEnv('Sonar') {
@@ -50,10 +54,6 @@ pipeline {
             }
         }
 
-        // CI Ended
-
-        // CD Started
-
         stage('Deployments') {
             parallel {
                 stage('Deploy to Dev') {
@@ -74,7 +74,5 @@ pipeline {
                 }
             }
         }
-
-        // CD Ended
     }
 }
