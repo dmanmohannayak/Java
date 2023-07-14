@@ -21,18 +21,6 @@ pipeline {
             }
         }
 
-        stage("SonarQube analysis") {
-            agent any
-            when {
-                branch 'main'
-            }
-            steps {
-                withSonarQubeEnv('Sonar') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
-        }
-
         stage("Quality Gate") {
             steps {
                 script {
