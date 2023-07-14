@@ -13,14 +13,6 @@ pipeline {
             }
         }
 
-        stage('Fetch') {
-            steps {
-                sh 'git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/New_main@2/.git'
-                sh 'git config remote.origin.url https://github.com/dmanmohannayak/Java.git'
-                sh 'git fetch --no-tags --force --progress -- https://github.com/dmanmohannayak/Java.git +refs/heads/main:refs/remotes/origin/main'
-            }
-        }
-
         stage("SonarQube analysis") {
             agent any
             when {
