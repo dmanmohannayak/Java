@@ -1,10 +1,5 @@
 pipeline {
     agent any
-
-    environment {
-        function_name = 'new'
-    }
-
     stages {
 
         // CI Start
@@ -15,13 +10,10 @@ pipeline {
             }
         }
 
-
         stage("SonarQube analysis") {
             agent any
-
             when {
                 anyOf {
-                    branch 'feature/*'
                     branch 'main'
                 }
             }
@@ -45,12 +37,9 @@ pipeline {
                 }
             }
         }
-
         stage('Push') {
             steps {
                 echo 'Push'
-
-                //sh "aws s3 cp target/sample-1.0.3.jar s3://javasample1"
             }
         }
 
@@ -58,33 +47,22 @@ pipeline {
 
         // CD Started
 
-        stage('Deployments') {
-            parallel {
-
-                stage('Deploy to Dev') {
-                    steps {
-                        echo 'Build'
-
-                        //sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket javasample1 --s3-key sample-1.0.3.jar"
-                    }
-                }
-
-                stage('Deploy to test ') {
-                    when {
-                        branch 'main'
-                    }
-                    steps {
-                        echo 'Build'
-
-                        // sh "aws lambda update-function-code --function-name $function_name --region us-east-1 --s3-bucket bermtecbatch31 --s3-key sample-1.0.3.jar"
-                    }
-                }
+       
+        stage('Deploy to Dev') {
+            steps {
+                echo 'Build'
             }
         }
 
-
-        
-
-        // CD Ended
+        stage('Deploy to test ') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'Build'
+            }
+        }
+            
     }
+        // CD Ended
 }
